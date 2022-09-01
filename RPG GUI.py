@@ -12,11 +12,11 @@ for select in myAuras.keys():
     imOver = None
     imAlpha = None
     try:
-        imOver = cv2.imread(f"./{select} Aura.png").astype(float)
+        imOver = cv2.imread(f".\\auras\\{select} Aura.png").astype(float)
     except:
         print(f'Failed to read "{select} Aura.png"')
     try:
-        imAlpha = cv2.imread(f"./{select} Aura - Alpha.png")
+        imAlpha = cv2.imread(f".\\auras\\{select} Aura - Alpha.png")
         imAlpha = imAlpha / imAlpha.max()
     except:
         print(f'Failed to read "{select} Aura.png"')
@@ -131,7 +131,7 @@ if __name__ == '__main__':
             cv2.multiply(frmThres, 255/frmThres.max(), frmThres)
             frmThres = cv2.erode(frmThres,np.ones(19, np.uint8))
             cv2.medianBlur(frmThres, 23, frmThres)
-            _, frmThres = cv2.threshold(frmThres, 35, 255, cv2.THRESH_BINARY)
+            _, frmThres = cv2.threshold(frmThres, 110, 255, cv2.THRESH_BINARY)
             frmThres = frmThres.max() - frmThres
             cv2.rectangle(frmThres, (0,0), (sW-1,sH-1), 255, 8)
             keyPoints = myBlob.detect(frmThres)
@@ -148,6 +148,6 @@ if __name__ == '__main__':
                 imOut = drawAura(imOut, pt, list(myAuras.keys())[idx % len(myAuras.keys())])
 
         cv2.imshow(winMain, imOut)
-        cv2.waitKey(1000)
+        cv2.waitKey(100)
 
     kbListen.stop()
